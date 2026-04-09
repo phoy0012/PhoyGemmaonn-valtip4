@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VALTIP4 — Sustainable Forestry & Wood Processing</title>
+<meta name="description" content="ACIAR Project FST/2023/153 — Sustainable Expansion of Forestry and Wood Processing in Laos and Australia (2025-2030)">
+<meta property="og:title" content="VALTIP4 — Sustainable Forestry & Wood Processing">
+<meta property="og:description" content="Expanding plantation forestry and transforming wood processing industries across Laos and Australia.">
+<meta property="og:image" content="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=1200&q=80">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.21/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/split-type"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0d0906;--bg-warm:#1a110b;--bg-surface:#241a12;--bg-elevated:#2c1f15;
+  --cream:#f8f3eb;--cream-muted:rgba(248,243,235,.55);--cream-subtle:rgba(248,243,235,.1);--cream-faint:rgba(248,243,235,.05);
+  --terracotta:#8B6914;--terracotta-muted:rgba(139,105,20,.2);
+  --caramel:#a0785a;--gold:#c9a96e;--copper:#b87333;
+  --forest:#5c3a1a;--forest-light:#8a5e2d;
+  --serif:'Instrument Serif',Georgia,serif;
+  --sans:'Space Grotesk',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --text-xs:clamp(.625rem,.6rem + .15vw,.6875rem);
+  --text-sm:clamp(.75rem,.7rem + .2vw,.8125rem);
+  --text-base:clamp(.875rem,.85rem + .2vw,1rem);
+  --text-md:clamp(1rem,.95rem + .3vw,1.125rem);
+  --text-lg:clamp(1.25rem,1.1rem + .6vw,1.5rem);
+  --text-xl:clamp(1.5rem,1.2rem + 1.2vw,2.25rem);
+  --text-2xl:clamp(2rem,1.5rem + 2vw,3rem);
+  --text-3xl:clamp(2.5rem,1.8rem + 3vw,4rem);
+  --text-display:clamp(3rem,2rem + 4.5vw,5.5rem);
+  --ease:cubic-bezier(.23,1,.32,1);--ease-out:cubic-bezier(.16,1,.3,1);
+  --ease-dramatic:cubic-bezier(.05,.7,.1,1);--ease-spring:cubic-bezier(.175,.885,.32,1.275);
+  --max-w:1320px;--section-py:clamp(6rem,12vw,10rem);--px:clamp(1.5rem,5vw,4rem);
+}
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--sans);background:var(--bg);color:var(--cream);overflow-x:hidden;line-height:1.65;font-weight:300}
+@media(max-width:768px){body{cursor:auto}}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(139,105,20,.3);border-radius:2px}
+::selection{background:rgba(139,105,20,.3);color:var(--cream)}
+img{display:block;max-width:100%}a{color:inherit;text-decoration:none}
+button{border:none;background:none;font-family:inherit;cursor:pointer}
+
+/* ══════ CUSTOM CURSOR ══════ */
+.cursor-dot{position:fixed;width:6px;height:6px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:10001;mix-blend-mode:difference;transform:translate(-50%,-50%);transition:width .25s var(--ease),height .25s var(--ease)}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(201,169,110,.35);border-radius:50%;pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:width .4s var(--ease),height .4s var(--ease),border-color .3s}
+.cursor-dot.hovering{width:14px;height:14px}
+.cursor-ring.hovering{width:56px;height:56px;border-color:rgba(201,169,110,.6)}
+@media(max-width:768px){.cursor-dot,.cursor-ring{display:none}}
+
+/* ══════ GRAIN ══════ */
+.grain{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");mix-blend-mode:overlay}
+
+/* ══════ SCROLL PROGRESS ══════ */
+.scroll-progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:200;background:linear-gradient(90deg,var(--caramel),var(--gold));transform-origin:left;transform:scaleX(0);will-change:transform}
+
+/* ══════ PRELOADER ══════ */
+.preloader{position:fixed;inset:0;z-index:20000;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem}
+.preloader.done{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .8s var(--ease-out),visibility .8s}
+.preloader-brand{font-family:var(--serif);font-size:var(--text-2xl);font-weight:400;letter-spacing:.02em;color:var(--cream);opacity:0;font-style:italic}
+.preloader-line{width:0;height:1px;background:linear-gradient(90deg,var(--caramel),var(--gold))}
+.preloader-sub{font-family:var(--mono);font-size:var(--text-xs);letter-spacing:.15em;text-transform:uppercase;color:var(--caramel);opacity:0}
+
+/* ══════ NAV ══════ */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 var(--px);height:72px;display:flex;align-items:center;justify-content:space-between;transition:background .5s var(--ease),backdrop-filter .5s}
+nav.scrolled{background:rgba(13,9,6,.88);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
+.nav-logo{font-family:var(--serif);font-size:1.25rem;font-weight:400;letter-spacing:.02em;font-style:italic}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;align-items:center;gap:2.5rem;list-style:none}
+.nav-links a{font-size:var(--text-sm);font-weight:400;color:var(--cream-muted);transition:color .25s var(--ease);position:relative;letter-spacing:.01em}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--gold);transition:width .35s var(--ease-out)}
+@media(hover:hover){.nav-links a:hover{color:var(--cream)}.nav-links a:hover::after{width:100%}}
+.nav-cta{font-size:var(--text-sm)!important;font-weight:500;color:var(--bg)!important;background:var(--cream);padding:.5rem 1.25rem;border-radius:100px;transition:transform .15s var(--ease),box-shadow .3s var(--ease)}
+@media(hover:hover){.nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(248,243,235,.15)}}
+.nav-cta::after{display:none!important}
+.burger{display:none;cursor:pointer;padding:8px;flex-direction:column;gap:5px}
+.burger span{display:block;width:20px;height:1.5px;background:var(--cream);border-radius:1px;transition:transform .3s var(--ease),opacity .2s}
+.burger.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+.mob-menu{display:none;position:fixed;inset:0;z-index:99;background:rgba(13,9,6,.97);backdrop-filter:blur(24px);flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+.mob-menu.open{display:flex}
+.mob-menu a{font-family:var(--serif);font-size:var(--text-xl);font-weight:400;color:var(--cream);transition:color .2s;font-style:italic}
+@media(hover:hover){.mob-menu a:hover{color:var(--gold)}}
+@media(max-width:768px){.nav-links{display:none}.burger{display:flex}}
+
+/* ══════ LAYOUT ══════ */
+.wrap{max-width:var(--max-w);margin:0 auto;padding-inline:var(--px)}
+.label{font-family:var(--mono);font-size:var(--text-xs);font-weight:300;letter-spacing:.15em;text-transform:uppercase;color:var(--caramel);margin-bottom:1.5rem}
+.section-title{font-family:var(--serif);font-size:var(--text-3xl);font-weight:400;line-height:1.08;letter-spacing:-.01em;margin-bottom:1.5rem}
+.section-body{font-size:var(--text-base);color:var(--cream-muted);line-height:1.8;max-width:520px}
+
+/* ══════ BUTTONS ══════ */
+.btn-primary{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--forest),var(--forest-light));color:var(--cream);padding:.875rem 2rem;border-radius:100px;font-size:var(--text-sm);font-weight:500;position:relative;overflow:hidden;transition:transform .2s var(--ease),box-shadow .35s var(--ease);letter-spacing:.01em}
+.btn-primary .btn-fill{position:absolute;inset:0;background:rgba(255,255,255,.1);transform:translateX(-101%);transition:transform .5s var(--ease-out)}
+@media(hover:hover){.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(92,58,26,.25)}.btn-primary:hover .btn-fill{transform:translateX(0)}}
+.btn-primary:active{transform:scale(.97)}
+.btn-ghost{font-size:var(--text-sm);font-weight:400;color:var(--cream-muted);padding:.875rem 0;border-bottom:1px solid var(--cream-subtle);transition:color .25s var(--ease),border-color .25s var(--ease);letter-spacing:.01em}
+@media(hover:hover){.btn-ghost:hover{color:var(--cream);border-color:var(--gold)}}
+
+/* ══════ HERO ══════ */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;padding:0 var(--px) 8vh;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg-img{position:absolute;inset:-10%;width:120%;height:120%;background:url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=1920&q=80') center/cover no-repeat;will-change:transform}
+.hero-bg-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(13,9,6,.92) 0%,rgba(13,9,6,.7) 45%,rgba(13,9,6,.35) 100%)}
+.hero-bg-bottom{position:absolute;bottom:0;left:0;right:0;height:40%;background:linear-gradient(to top,var(--bg),transparent)}
+.hero-content{position:relative;z-index:2;max-width:680px;padding-bottom:2rem}
+.hero-eyebrow{font-family:var(--mono);font-size:var(--text-xs);font-weight:300;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;overflow:hidden}
+.hero-eyebrow span{display:inline-block}
+.hero-title{font-family:var(--serif);font-size:var(--text-display);font-weight:400;line-height:1.02;letter-spacing:-.02em;margin-bottom:2rem}
+.hero-title .line{display:block;overflow:hidden}
+.hero-title .line-inner{display:inline-block}
+.hero-title em{font-style:italic;font-weight:400;position:relative;display:inline-block}
+.hero-title em::after{content:'';position:absolute;bottom:6px;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left}
+.hero-desc{font-size:var(--text-base);color:var(--cream-muted);max-width:440px;line-height:1.8;margin-bottom:2.5rem;overflow:hidden}
+.hero-desc span{display:inline-block}
+.hero-actions{display:flex;align-items:center;gap:2rem;opacity:0}
+.hero-scroll-indicator{position:absolute;bottom:3vh;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;font-family:var(--mono);font-size:.5625rem;letter-spacing:.15em;text-transform:uppercase;color:var(--cream-muted);opacity:0;z-index:2}
+.hero-scroll-line{width:1px;height:36px;background:var(--cream-subtle);position:relative;overflow:hidden}
+.hero-scroll-line::after{content:'';position:absolute;top:-100%;width:100%;height:50%;background:var(--gold);animation:scroll-line 2.2s var(--ease) infinite}
+@keyframes scroll-line{0%{top:-50%}100%{top:150%}}
+
+/* ══════ STATS BAR ══════ */
+.stats-bar{padding:4rem 0;border-top:1px solid var(--cream-faint);border-bottom:1px solid var(--cream-faint)}
+.stats-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;max-width:var(--max-w);margin:0 auto;padding:0 var(--px);text-align:center}
+.stat-item{position:relative}
+.stat-item:not(:last-child)::after{content:'';position:absolute;right:0;top:10%;height:80%;width:1px;background:var(--cream-faint)}
+.stat-num{font-family:var(--serif);font-size:var(--text-2xl);font-weight:400;color:var(--gold);line-height:1;margin-bottom:.5rem;font-feature-settings:"tnum"}
+.stat-label{font-size:var(--text-xs);color:var(--cream-muted);letter-spacing:.02em;line-height:1.5}
+@media(max-width:768px){.stats-inner{grid-template-columns:repeat(2,1fr);gap:2rem 1rem}.stat-item:nth-child(2)::after{display:none}}
+
+/* ══════ MARQUEE ══════ */
+.marquee-section{padding:1.75rem 0;border-bottom:1px solid var(--cream-faint);overflow:hidden;position:relative}
+.marquee-track{display:flex;gap:3rem;white-space:nowrap;will-change:transform}
+.marquee-item{font-family:var(--sans);font-size:var(--text-sm);font-weight:300;color:var(--cream-muted);letter-spacing:.02em;flex-shrink:0}
+.marquee-item .accent{color:var(--gold);font-weight:500}
+.marquee-sep{color:var(--gold);opacity:.4;font-size:.375rem;display:flex;align-items:center;flex-shrink:0}
+
+/* ══════ OVERVIEW ══════ */
+.overview{padding:var(--section-py) 0}
+.overview-header{display:grid;grid-template-columns:1.2fr 1fr;gap:4rem;padding:0 var(--px);max-width:var(--max-w);margin:0 auto 4rem;align-items:end}
+.overview-images{display:grid;grid-template-columns:1.2fr 1fr;gap:1.5rem;padding:0 var(--px);max-width:var(--max-w);margin:0 auto}
+.overview-img{position:relative;overflow:hidden;border-radius:3px;clip-path:inset(0 0 100% 0)}
+.overview-img-tall{aspect-ratio:3/4}
+.overview-img-wide{aspect-ratio:4/3;margin-top:3rem}
+.overview-img img{width:100%;height:120%;object-fit:cover;will-change:transform}
+.overview-stat{position:absolute;bottom:1.5rem;left:1.5rem;right:1.5rem;background:rgba(13,9,6,.75);backdrop-filter:saturate(180%) blur(16px);border:.5px solid var(--cream-faint);border-radius:6px;padding:1.25rem 1.5rem;display:flex;align-items:baseline;gap:.75rem}
+.overview-stat-num{font-family:var(--serif);font-size:var(--text-xl);font-weight:400;color:var(--gold);line-height:1;font-feature-settings:"tnum"}
+.overview-stat-label{font-size:var(--text-xs);color:var(--cream-muted);letter-spacing:.02em}
+@media(max-width:768px){.overview-header{grid-template-columns:1fr;gap:2rem}.overview-images{grid-template-columns:1fr}.overview-img-wide{margin-top:0}}
+
+/* ══════ OBJECTIVES ══════ */
+.objectives{padding:var(--section-py) 0;background:var(--bg-warm)}
+.objectives-header{max-width:var(--max-w);margin:0 auto 4rem;padding:0 var(--px)}
+.obj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;padding:0 var(--px);max-width:var(--max-w);margin:0 auto;background:var(--cream-faint)}
+.obj-item{background:var(--bg-warm);padding:clamp(2rem,3vw,3rem);transition:background .4s var(--ease)}
+@media(hover:hover){.obj-item:hover{background:var(--bg-surface)}}
+.obj-num{font-family:var(--serif);font-size:var(--text-xl);font-weight:400;color:var(--gold);opacity:.3;font-style:italic;margin-bottom:1.5rem;line-height:1}
+.obj-item h3{font-family:var(--serif);font-size:var(--text-md);font-weight:400;margin-bottom:.75rem}
+.obj-item p{font-size:var(--text-sm);color:var(--cream-muted);line-height:1.75}
+@media(max-width:1024px){.obj-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.obj-grid{grid-template-columns:1fr}}
+
+/* ══════ RESEARCH STREAMS ══════ */
+.research{padding:var(--section-py) 0}
+.research-layout{display:grid;grid-template-columns:1fr 1.3fr;gap:clamp(3rem,6vw,6rem);max-width:var(--max-w);margin:0 auto;padding:0 var(--px);align-items:start}
+.research-list{list-style:none;counter-reset:stream}
+.research-item{counter-increment:stream;padding:1.5rem 0;border-bottom:1px solid var(--cream-faint);display:grid;grid-template-columns:auto 1fr;gap:1.5rem;align-items:start;transition:border-color .3s var(--ease)}
+@media(hover:hover){.research-item:hover{border-color:var(--gold)}}
+.research-item::before{content:counter(stream,decimal-leading-zero);font-family:var(--serif);font-size:var(--text-lg);font-weight:400;color:var(--gold);opacity:.5;font-style:italic;padding-top:2px}
+.research-item h4{font-family:var(--serif);font-size:var(--text-md);font-weight:400;margin-bottom:.5rem}
+.research-item p{font-size:var(--text-sm);color:var(--cream-muted);line-height:1.7}
+.research-item .stream-tag{display:inline-block;margin-top:.5rem;font-family:var(--mono);font-size:var(--text-xs);color:var(--caramel);letter-spacing:.08em}
+.research-visual{position:relative;border-radius:4px;overflow:hidden;aspect-ratio:4/5;clip-path:inset(0 0 100% 0)}
+.research-visual img{width:100%;height:100%;object-fit:cover;will-change:transform}
+.research-visual-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,9,6,.6) 0%,transparent 50%)}
+.research-visual-label{position:absolute;bottom:2rem;left:2rem;font-family:var(--mono);font-size:var(--text-xs);letter-spacing:.15em;text-transform:uppercase;color:var(--cream);opacity:.7}
+@media(max-width:768px){.research-layout{grid-template-columns:1fr}.research-visual{max-width:100%;aspect-ratio:16/9}}
+
+/* ══════ QUOTE ══════ */
+.quote-section{padding:var(--section-py) var(--px);position:relative;overflow:hidden}
+.quote-bg-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--serif);font-size:clamp(8rem,20vw,18rem);font-weight:400;color:var(--cream);opacity:.015;white-space:nowrap;pointer-events:none;font-style:italic;will-change:transform}
+.quote-inner{max-width:780px;margin:0 auto;text-align:center;position:relative;z-index:1}
+.quote-divider{width:50px;height:1px;background:var(--gold);margin:0 auto 3rem;transform:scaleX(0);transform-origin:center}
+.quote-text{font-family:var(--serif);font-size:var(--text-xl);font-weight:400;line-height:1.5;font-style:italic;color:var(--cream);margin-bottom:2rem}
+.quote-author{font-family:var(--mono);font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--caramel);font-style:normal}
+
+/* ══════ TIMELINE ══════ */
+.timeline-section{padding:var(--section-py) 0;background:var(--bg-warm)}
+.timeline-layout{display:grid;grid-template-columns:1fr 1.5fr;gap:clamp(3rem,6vw,6rem);max-width:var(--max-w);margin:0 auto;padding:0 var(--px);align-items:start}
+.timeline-visual{position:relative;border-radius:4px;overflow:hidden;aspect-ratio:3/4;position:sticky;top:100px;clip-path:inset(0 100% 0 0)}
+.timeline-visual img{width:100%;height:100%;object-fit:cover;will-change:transform}
+.timeline-visual-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,9,6,.7) 0%,transparent 40%)}
+.timeline-visual-stats{position:absolute;bottom:2rem;left:2rem;right:2rem;display:flex;gap:2rem}
+.timeline-visual-stat{text-align:left}
+.timeline-visual-stat .num{font-family:var(--serif);font-size:var(--text-xl);font-weight:400;color:var(--gold);line-height:1}
+.timeline-visual-stat .lbl{font-size:var(--text-xs);color:var(--cream-muted);margin-top:.25rem;letter-spacing:.02em}
+.timeline-list{list-style:none}
+.timeline-item{position:relative;padding:2rem 0 2rem 2.5rem;border-left:1px solid var(--cream-faint)}
+.timeline-item::before{content:'';position:absolute;left:-4px;top:2.25rem;width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px var(--bg-warm)}
+.timeline-item:last-child{border-left-color:transparent}
+.timeline-year{font-family:var(--mono);font-size:var(--text-xs);letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem}
+.timeline-item h3{font-family:var(--serif);font-size:var(--text-lg);font-weight:400;margin-bottom:.5rem}
+.timeline-item p{font-size:var(--text-sm);color:var(--cream-muted);line-height:1.75;margin-bottom:.75rem}
+.timeline-tags{display:flex;flex-wrap:wrap;gap:.5rem}
+.timeline-tag{font-family:var(--mono);font-size:.5625rem;letter-spacing:.1em;text-transform:uppercase;color:var(--cream-muted);padding:.35rem .75rem;border:1px solid var(--cream-faint);border-radius:100px}
+@media(max-width:768px){.timeline-layout{grid-template-columns:1fr}.timeline-visual{position:relative;top:auto;aspect-ratio:16/9;margin-bottom:2rem}}
+
+/* ══════ FULL-WIDTH IMAGE BREAK ══════ */
+.image-break{position:relative;height:60vh;overflow:hidden}
+.image-break img{width:100%;height:120%;object-fit:cover;will-change:transform}
+.image-break-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,var(--bg-warm) 0%,transparent 25%,transparent 75%,var(--bg) 100%)}
+
+/* ══════ TEAM ══════ */
+.team-section{padding:var(--section-py) 0;position:relative;overflow:hidden}
+.team-bg-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--serif);font-size:clamp(8rem,20vw,18rem);font-weight:400;color:var(--cream);opacity:.015;white-space:nowrap;pointer-events:none;font-style:italic;will-change:transform}
+.team-header{max-width:var(--max-w);margin:0 auto 4rem;padding:0 var(--px);display:grid;grid-template-columns:1.2fr 1fr;gap:4rem;align-items:end}
+.team-header-img{border-radius:4px;overflow:hidden;aspect-ratio:16/9;clip-path:inset(0 100% 0 0)}
+.team-header-img img{width:100%;height:100%;object-fit:cover;will-change:transform}
+.team-groups{max-width:var(--max-w);margin:0 auto;padding:0 var(--px)}
+.team-group{margin-bottom:3rem}
+.team-group-label{font-family:var(--mono);font-size:var(--text-xs);letter-spacing:.12em;text-transform:uppercase;color:var(--caramel);margin-bottom:1.5rem;font-weight:300;display:flex;align-items:center;gap:1rem}
+.team-group-label::after{content:'';flex:1;height:1px;background:var(--cream-faint)}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--cream-faint)}
+.team-card{background:var(--bg);padding:1.5rem;transition:background .4s var(--ease),transform .4s var(--ease)}
+@media(hover:hover){.team-card:hover{background:var(--bg-warm);transform:translateY(-2px)}}
+.team-initials{font-family:var(--serif);font-size:var(--text-lg);font-weight:400;color:var(--gold);font-style:italic;margin-bottom:.75rem;line-height:1}
+.team-card h4{font-family:var(--serif);font-size:var(--text-sm);font-weight:400;margin-bottom:.25rem}
+.team-card .role{font-size:var(--text-xs);color:var(--cream-muted)}
+.team-card .org{font-family:var(--mono);font-size:.5625rem;color:var(--caramel);letter-spacing:.08em;margin-top:.5rem;text-transform:uppercase}
+@media(max-width:1024px){.team-grid{grid-template-columns:repeat(3,1fr)}.team-header{grid-template-columns:1fr}}
+@media(max-width:600px){.team-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ══════ PARTNERS ══════ */
+.partners{padding:var(--section-py) 0;background:var(--bg-warm)}
+.partners-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(3rem,6vw,6rem);max-width:var(--max-w);margin:0 auto;padding:0 var(--px);align-items:start}
+.partner-groups{list-style:none}
+.partner-group{padding:1.5rem 0;border-bottom:1px solid var(--cream-faint)}
+.partner-group h4{font-family:var(--serif);font-size:var(--text-md);font-weight:400;margin-bottom:.5rem}
+.partner-group p{font-size:var(--text-sm);color:var(--cream-muted);line-height:1.75}
+.partner-orgs{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--cream-faint)}
+.partner-org{background:var(--bg-warm);padding:1.5rem;text-align:center;transition:background .4s var(--ease),transform .3s var(--ease)}
+@media(hover:hover){.partner-org:hover{background:var(--bg-surface);transform:translateY(-2px)}}
+.partner-org h4{font-family:var(--serif);font-size:var(--text-sm);font-weight:400;margin-bottom:.25rem}
+.partner-org p{font-size:var(--text-xs);color:var(--cream-muted)}
+@media(max-width:768px){.partners-layout{grid-template-columns:1fr}.partner-orgs{grid-template-columns:1fr}}
+
+/* ══════ IMPACT ══════ */
+.impact{padding:var(--section-py) 0}
+.impact-header{max-width:var(--max-w);margin:0 auto 4rem;padding:0 var(--px)}
+.impact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;max-width:var(--max-w);margin:0 auto;padding:0 var(--px)}
+.impact-card{position:relative;border-radius:4px;overflow:hidden;aspect-ratio:3/4;display:flex;align-items:flex-end}
+.impact-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease);will-change:transform}
+@media(hover:hover){.impact-card:hover img{transform:scale(1.06)}}
+.impact-card-content{position:relative;z-index:1;width:100%;padding:2rem 1.5rem;background:linear-gradient(transparent,rgba(13,9,6,.85))}
+.impact-card-content h3{font-family:var(--serif);font-size:var(--text-md);font-weight:400;margin-bottom:.5rem}
+.impact-card-content p{font-size:var(--text-xs);color:var(--cream-muted);line-height:1.6}
+@media(max-width:1024px){.impact-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.impact-grid{grid-template-columns:1fr;max-width:400px}}
+
+/* ══════ GALLERY ══════ */
+.gallery{padding:var(--section-py) 0;background:var(--bg-warm)}
+.gallery-header{max-width:var(--max-w);margin:0 auto 4rem;padding:0 var(--px)}
+.gallery-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;grid-template-rows:auto auto;gap:1.5rem;max-width:var(--max-w);margin:0 auto;padding:0 var(--px)}
+.gallery-item{position:relative;overflow:hidden;border-radius:3px;aspect-ratio:4/3}
+.gallery-item:first-child{grid-row:span 2;aspect-ratio:auto}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease);will-change:transform}
+@media(hover:hover){.gallery-item:hover img{transform:scale(1.06)}}
+.gallery-item-overlay{position:absolute;inset:0;background:linear-gradient(transparent 50%,rgba(13,9,6,.7));opacity:0;transition:opacity .4s;display:flex;align-items:flex-end;padding:1.5rem}
+@media(hover:hover){.gallery-item:hover .gallery-item-overlay{opacity:1}}
+.gallery-item-overlay p{color:var(--cream);font-size:var(--text-sm);font-weight:400}
+@media(max-width:768px){.gallery-grid{grid-template-columns:1fr}.gallery-item:first-child{grid-row:span 1}}
+
+/* ══════ CONTACT ══════ */
+.contact{padding:var(--section-py) 0}
+.contact-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(3rem,6vw,6rem);max-width:var(--max-w);margin:0 auto;padding:0 var(--px);align-items:start}
+.contact-info{display:grid;gap:1.5rem;margin-top:2rem}
+.contact-item{padding:1.25rem 0;border-bottom:1px solid var(--cream-faint);display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start}
+.contact-icon{width:40px;height:40px;border-radius:8px;background:rgba(201,169,110,.08);border:1px solid var(--cream-faint);display:flex;align-items:center;justify-content:center;color:var(--gold);flex-shrink:0}
+.contact-item h4{font-family:var(--mono);font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--caramel);margin-bottom:.25rem;font-weight:300}
+.contact-item p{font-size:var(--text-sm);color:var(--cream)}
+.contact-form{background:rgba(248,243,235,.03);border:1px solid var(--cream-faint);border-radius:6px;padding:clamp(2rem,4vw,3rem)}
+.contact-form h3{font-family:var(--serif);font-size:var(--text-xl);font-weight:400;margin-bottom:2rem;font-style:italic}
+.form-group{margin-bottom:1.25rem}
+.form-group label{display:block;font-family:var(--mono);font-size:var(--text-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--caramel);margin-bottom:.5rem;font-weight:300}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:.875rem 1rem;background:transparent;border:1px solid var(--cream-faint);border-radius:4px;color:var(--cream);font-size:var(--text-sm);font-family:var(--sans);transition:border-color .3s var(--ease);outline:none}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--gold)}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(248,243,235,.2)}
+.form-group textarea{resize:vertical;min-height:120px}
+.form-group select{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23a0785a' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center}
+.form-group select option{background:var(--bg);color:var(--cream)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.btn-submit{width:100%;padding:.875rem;background:linear-gradient(135deg,var(--forest),var(--forest-light));color:var(--cream);border:none;border-radius:100px;font-size:var(--text-sm);font-weight:500;cursor:pointer;transition:transform .2s var(--ease),box-shadow .3s;font-family:var(--sans);letter-spacing:.01em}
+@media(hover:hover){.btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(92,58,26,.25)}}
+@media(max-width:768px){.contact-layout{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}}
+
+/* ══════ FOOTER ══════ */
+footer{border-top:1px solid var(--cream-faint);padding:4rem var(--px) 2rem;background:var(--bg)}
+.footer-inner{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:3rem;max-width:var(--max-w);margin:0 auto 4rem}
+.footer-brand{font-family:var(--serif);font-size:1.25rem;font-weight:400;margin-bottom:1rem;font-style:italic}
+.footer-tagline{font-size:var(--text-sm);color:var(--cream-muted);line-height:1.7;max-width:280px}
+.footer-col h4{font-family:var(--mono);font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--caramel);margin-bottom:1.5rem;font-weight:300}
+.footer-col ul{list-style:none}
+.footer-col li{margin-bottom:.75rem}
+.footer-col a{font-size:var(--text-sm);color:var(--cream-muted);transition:color .2s var(--ease)}
+@media(hover:hover){.footer-col a:hover{color:var(--cream)}}
+.footer-big-text{font-family:var(--serif);font-size:clamp(4rem,10vw,8rem);font-weight:400;color:var(--cream);opacity:.03;text-align:center;max-width:var(--max-w);margin:0 auto 3rem;overflow:hidden;white-space:nowrap;font-style:italic;will-change:transform}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;max-width:var(--max-w);margin:0 auto;padding-top:2rem;border-top:1px solid var(--cream-faint);font-size:var(--text-xs);color:rgba(248,243,235,.25)}
+.footer-socials{display:flex;gap:.75rem}
+.footer-social{width:36px;height:36px;border-radius:6px;background:rgba(248,243,235,.03);border:1px solid var(--cream-faint);display:flex;align-items:center;justify-content:center;transition:all .3s var(--ease);color:var(--cream-muted)}
+@media(hover:hover){.footer-social:hover{background:var(--gold);border-color:var(--gold);color:var(--bg);transform:translateY(-2px)}}
+@media(max-width:768px){.footer-inner{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.footer-inner{grid-template-columns:1fr}.footer-bottom{flex-direction:column;gap:.5rem}}
+
+/* ══════ REVEALS ══════ */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .9s var(--ease-dramatic),transform .9s var(--ease-dramatic)}
+.rv.vis{opacity:1;transform:translateY(0)}
+.rv-stagger>*{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease-dramatic),transform .7s var(--ease-dramatic)}
+.rv-stagger.vis>*:nth-child(1){opacity:1;transform:translateY(0);transition-delay:0ms}
+.rv-stagger.vis>*:nth-child(2){opacity:1;transform:translateY(0);transition-delay:60ms}
+.rv-stagger.vis>*:nth-child(3){opacity:1;transform:translateY(0);transition-delay:120ms}
+.rv-stagger.vis>*:nth-child(4){opacity:1;transform:translateY(0);transition-delay:180ms}
+.rv-stagger.vis>*:nth-child(5){opacity:1;transform:translateY(0);transition-delay:240ms}
+.rv-stagger.vis>*:nth-child(6){opacity:1;transform:translateY(0);transition-delay:300ms}
+.rv-stagger.vis>*:nth-child(7){opacity:1;transform:translateY(0);transition-delay:360ms}
+.rv-stagger.vis>*:nth-child(8){opacity:1;transform:translateY(0);transition-delay:420ms}
+@media(prefers-reduced-motion:reduce){.rv,.rv-stagger>*{opacity:1;transform:none;transition:none}.hero-scroll-line::after{animation:none}}
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- Grain -->
+<div class="grain"></div>
+
+<!-- Scroll Progress -->
+<div class="scroll-progress" id="scroll-progress"></div>
+
+<!-- Preloader -->
+<div class="preloader" id="preloader">
+  <div class="preloader-brand" id="preloader-brand">VALTIP4</div>
+  <div class="preloader-line" id="preloader-line"></div>
+  <div class="preloader-sub" id="preloader-sub">ACIAR . FST/2023/153 . Sustainable Forestry</div>
+</div>
+
+<!-- Nav -->
+<nav id="nav">
+  <a href="#" class="nav-logo" data-hover>VALTIP<span>4</span></a>
+  <ul class="nav-links">
+    <li><a href="#overview" data-hover>Overview</a></li>
+    <li><a href="#objectives" data-hover>Objectives</a></li>
+    <li><a href="#research" data-hover>Research</a></li>
+    <li><a href="#timeline" data-hover>Timeline</a></li>
+    <li><a href="#team" data-hover>Team</a></li>
+    <li><a href="#partners" data-hover>Partners</a></li>
+    <li><a href="#impact" data-hover>Impact</a></li>
+    <li><a href="#contact" class="nav-cta" data-hover data-magnetic>Contact</a></li>
+  </ul>
+  <button class="burger" id="burger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mob-menu" id="mob-menu">
+  <a href="#overview" class="mob-link">Overview</a>
+  <a href="#objectives" class="mob-link">Objectives</a>
+  <a href="#research" class="mob-link">Research</a>
+  <a href="#timeline" class="mob-link">Timeline</a>
+  <a href="#team" class="mob-link">Team</a>
+  <a href="#partners" class="mob-link">Partners</a>
+  <a href="#impact" class="mob-link">Impact</a>
+  <a href="#gallery" class="mob-link">Gallery</a>
+  <a href="#contact" class="mob-link">Contact</a>
+</div>
+
+<!-- ══════ HERO ══════ -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <div class="hero-bg-img" id="hero-bg-img"></div>
+    <div class="hero-bg-overlay"></div>
+    <div class="hero-bg-bottom"></div>
+  </div>
+  <div class="hero-content" id="hero-content">
+    <div class="hero-eyebrow">
+      <span id="hero-eyebrow">ACIAR Project . FST/2023/153 . 2025 to 2030</span>
+    </div>
+    <h1 class="hero-title" id="hero-title">
+      <span class="line"><span class="line-inner">Sustainable</span></span>
+      <span class="line"><span class="line-inner"><em>forestry</em> for Laos</span></span>
+      <span class="line"><span class="line-inner">and Australia</span></span>
+    </h1>
+    <p class="hero-desc">
+      <span id="hero-desc">Expanding plantation forestry and transforming wood processing to create economic growth, environmental sustainability, and social equity.</span>
+    </p>
+    <div class="hero-actions" id="hero-actions">
+      <a href="#overview" class="btn-primary" data-hover data-magnetic>
+        <span class="btn-fill"></span>
+        <span>Learn More</span>
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+      <a href="#contact" class="btn-ghost" data-hover>Contact Us</a>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator" id="hero-scroll">
+    <span>Scroll</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- ══════ STATS BAR ══════ -->
+<section class="stats-bar" id="stats-bar">
+  <div class="stats-inner rv-stagger">
+    <div class="stat-item">
+      <div class="stat-num" id="stat-years">5</div>
+      <div class="stat-label">Year Research<br>Project</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="stat-researchers">47</div>
+      <div class="stat-label">Researchers Across<br>Two Nations</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="stat-hectares">300K</div>
+      <div class="stat-label">Hectares of Rubber<br>Plantations</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="stat-streams">6</div>
+      <div class="stat-label">Integrated Research<br>Streams</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ MARQUEE ══════ -->
+<section class="marquee-section">
+  <div class="marquee-track" id="marquee-track">
+    <span class="marquee-item"><span class="accent">5 year</span> research project</span>
+    <span class="marquee-sep">&#9679;</span>
+    <span class="marquee-item"><span class="accent">47</span> researchers across two nations</span>
+    <span class="marquee-sep">&#9679;</span>
+    <span class="marquee-item"><span class="accent">300,000</span> hectares of rubber plantations</span>
+    <span class="marquee-sep">&#9679;</span>
+    <span class="marquee-item"><span class="accent">6</span> integrated research streams</span>
+    <span class="marquee-sep">&#9679;</span>
+    <span class="marquee-item"><span class="accent">7</span> partner organisations</span>
+    <span class="marquee-sep">&#9679;</span>
+    <span class="marquee-item"><span class="accent">15+</span> years ACIAR presence in Laos</span>
+    <span class="marquee-sep">&#9679;</span>
+    <span class="marquee-item"><span class="accent">5 year</span> research project</span>
+    <span class="marquee-sep">&#9679;</span>
+    <span class="marquee-item"><span class="accent">47</span> researchers across two nations</span>
+    <span class="marquee-sep">&#9679;</span>
+    <span class="marquee-item"><span class="accent">300,000</span> hectares of rubber plantations</span>
+    <span class="marquee-sep">&#9679;</span>
+    <span class="marquee-item"><span class="accent">6</span> integrated research streams</span>
+    <span class="marquee-sep">&#9679;</span>
+    <span class="marquee-item"><span class="accent">7</span> partner organisations</span>
+    <span class="marquee-sep">&#9679;</span>
+    <span class="marquee-item"><span class="accent">15+</span> years ACIAR presence in Laos</span>
+    <span class="marquee-sep">&#9679;</span>
+  </div>
+</section>
+
+<!-- ══════ OVERVIEW ══════ -->
+<section class="overview" id="overview">
+  <div class="overview-header">
+    <div>
+      <div class="label rv">About the Project</div>
+      <h2 class="section-title" id="overview-title">From plantation<br>to <em>prosperity</em></h2>
+    </div>
+    <div>
+      <p class="section-body rv">
+        Laos is a Least Developed Country with nearly 25% of its population below the poverty line. VALTIP4 works to transform plantation forestry and wood processing into key drivers of poverty alleviation, increased tree cover, and climate change mitigation.
+      </p>
+    </div>
+  </div>
+  <div class="overview-images">
+    <div class="overview-img overview-img-tall" id="overview-img-1">
+      <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?w=800&q=80" alt="Wood processing operations in Southeast Asia" loading="lazy">
+    </div>
+    <div class="overview-img overview-img-wide" id="overview-img-2" style="position:relative">
+      <img src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=800&q=80" alt="Dense tropical forest canopy" loading="lazy">
+      <div class="overview-stat">
+        <div class="overview-stat-num" id="hectare-counter">0</div>
+        <div class="overview-stat-label">Hectares of rubber<br>plantations in Laos</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ OBJECTIVES ══════ -->
+<section class="objectives" id="objectives">
+  <div class="objectives-header">
+    <div class="label rv">Project Objectives</div>
+    <h2 class="section-title" id="objectives-title">Six strategic goals<br>driving <em>change</em></h2>
+    <p class="section-body rv">A multi disciplinary approach addressing policy, technology, markets, gender equity, and workplace safety across the forestry value chain.</p>
+  </div>
+  <div class="obj-grid rv-stagger" id="obj-grid">
+    <div class="obj-item">
+      <div class="obj-num">01</div>
+      <h3>Policy & Governance</h3>
+      <p>Strengthen the enabling environment for plantation expansion. Support smallholders and MSMEs through improved policy, regulation, and industry frameworks.</p>
+    </div>
+    <div class="obj-item">
+      <div class="obj-num">02</div>
+      <h3>WTRC Self Sufficiency</h3>
+      <p>Build the Wood Technical Research Centre at NUoL into a fully self supporting, certified, fee for service testing and training facility.</p>
+    </div>
+    <div class="obj-item">
+      <div class="obj-num">03</div>
+      <h3>Timber R&D</h3>
+      <p>Address technical barriers in wood product recoveries, optimise rubberwood processing, and develop bio based adhesives and circular economy practices.</p>
+    </div>
+    <div class="obj-item">
+      <div class="obj-num">04</div>
+      <h3>Markets & Supply Chains</h3>
+      <p>Build market intelligence and forecasting of global and regional demand trends to identify export and domestic opportunities.</p>
+    </div>
+    <div class="obj-item">
+      <div class="obj-num">05</div>
+      <h3>Gender & Social Inclusion</h3>
+      <p>Examine the effects of industry development on female livelihoods, particularly for ethnic minority women, and improve equity across the supply chain.</p>
+    </div>
+    <div class="obj-item">
+      <div class="obj-num">06</div>
+      <h3>Occupational Health & Safety</h3>
+      <p>Establish routine industrial hygiene and OH&S protocols across forest and wood processing industries, addressing significant safety gaps.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ RESEARCH STREAMS ══════ -->
+<section class="research" id="research">
+  <div class="research-layout">
+    <div>
+      <div class="label rv">Research Streams</div>
+      <h2 class="section-title" id="research-title">Six streams,<br>zero shortcuts</h2>
+      <p class="section-body rv" style="margin-bottom:3rem">A comprehensive multi disciplinary program spanning policy, technology, markets, social inclusion, and workplace safety.</p>
+      <ol class="research-list rv-stagger" id="research-list">
+        <li class="research-item">
+          <div>
+            <h4>Policy, Governance & Industry</h4>
+            <p>Strengthening policy frameworks and institutional capacity for sustainable forest industry expansion.</p>
+            <span class="stream-tag">Dept. of Forestry & ANU</span>
+          </div>
+        </li>
+        <li class="research-item">
+          <div>
+            <h4>WTRC at NUoL</h4>
+            <p>Building the Wood Technical Research Centre into a fully self supporting, certified testing and training facility.</p>
+            <span class="stream-tag">National University of Laos</span>
+          </div>
+        </li>
+        <li class="research-item">
+          <div>
+            <h4>Timber R&D & Circular Economy</h4>
+            <p>Addressing technical barriers in wood product recoveries with focus on rubberwood, bio adhesives, and circular practices.</p>
+            <span class="stream-tag">Griffith & Melbourne</span>
+          </div>
+        </li>
+        <li class="research-item">
+          <div>
+            <h4>Supply Chains & Markets</h4>
+            <p>Building market intelligence and forecasting of global and regional trends for Lao plantation resources.</p>
+            <span class="stream-tag">Salwood Asia Pacific</span>
+          </div>
+        </li>
+        <li class="research-item">
+          <div>
+            <h4>Gender & Social Inclusion</h4>
+            <p>Examining gender effects of industry development to improve equity, with focus on ethnic minority women.</p>
+            <span class="stream-tag">NUoL Social Sciences</span>
+          </div>
+        </li>
+        <li class="research-item">
+          <div>
+            <h4>Occupational Health & Safety</h4>
+            <p>Establishing routine OH&S protocols with exchange visits to Australian regulators and on site training.</p>
+            <span class="stream-tag">DPI Queensland</span>
+          </div>
+        </li>
+      </ol>
+    </div>
+    <div class="research-visual" id="research-visual">
+      <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&q=80" alt="Wood processing and timber research" loading="lazy">
+      <div class="research-visual-overlay"></div>
+      <div class="research-visual-label">6 Integrated Streams</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ QUOTE ══════ -->
+<section class="quote-section" id="quote-section">
+  <div class="quote-bg-text" id="quote-bg">Forestry</div>
+  <div class="quote-inner">
+    <div class="quote-divider rv" id="quote-divider"></div>
+    <blockquote class="quote-text rv">"Global demand for wood products is projected to quadruple over the next 30 years. Laos is uniquely positioned to capture value adding opportunities that its neighbours have already seized."</blockquote>
+    <cite class="quote-author rv">VALTIP4 Project Proposal, ACIAR</cite>
+  </div>
+</section>
+
+<!-- ══════ TIMELINE ══════ -->
+<section class="timeline-section" id="timeline">
+  <div class="timeline-layout">
+    <div class="timeline-visual" id="timeline-visual">
+      <img src="https://images.unsplash.com/photo-1425913397330-cf8af2ff40a1?w=800&q=80" alt="Lao forest landscape" loading="lazy">
+      <div class="timeline-visual-overlay"></div>
+      <div class="timeline-visual-stats">
+        <div class="timeline-visual-stat"><div class="num">2025</div><div class="lbl">Start</div></div>
+        <div class="timeline-visual-stat"><div class="num">2030</div><div class="lbl">End</div></div>
+        <div class="timeline-visual-stat"><div class="num">5</div><div class="lbl">Years</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="label rv">Project Phases</div>
+      <h2 class="section-title" id="timeline-title">Five year<br><em>roadmap</em></h2>
+      <ol class="timeline-list rv-stagger" id="timeline-list">
+        <li class="timeline-item">
+          <div class="timeline-year">Year 1 . Jul 2025 to Jun 2026</div>
+          <h3>Inception & Baseline</h3>
+          <p>Establish project steering committee, recruit in country manager, conduct inception workshop, and develop full M&E framework with baseline data collection.</p>
+          <div class="timeline-tags">
+            <span class="timeline-tag">OH&S Review</span>
+            <span class="timeline-tag">Market Intel</span>
+            <span class="timeline-tag">WTRC SWOT</span>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-year">Year 2 . Jul 2026 to Jun 2027</div>
+          <h3>Research Build Up</h3>
+          <p>Scale up in country research, begin plantation resource characterisation studies focusing on rubberwood. Deliver first WTRC business model.</p>
+          <div class="timeline-tags">
+            <span class="timeline-tag">Resource Reports</span>
+            <span class="timeline-tag">WTRC Model</span>
+            <span class="timeline-tag">Logistics</span>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-year">Year 3 . Jul 2027 to Jun 2028</div>
+          <h3>Mid Term & Expansion</h3>
+          <p>Mid term review to assess progress. Begin EWP product testing and wood product technical trials. Intensify OH&S on site training.</p>
+          <div class="timeline-tags">
+            <span class="timeline-tag">EWP Trials</span>
+            <span class="timeline-tag">Bio Adhesives</span>
+            <span class="timeline-tag">MSME Support</span>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-year">Year 4 . Jul 2028 to Jun 2029</div>
+          <h3>Consolidation</h3>
+          <p>Consolidate research findings across all streams. Support WTRC self sustaining operations and deliver circular economy trial reports.</p>
+          <div class="timeline-tags">
+            <span class="timeline-tag">Final Reports</span>
+            <span class="timeline-tag">Circular Economy</span>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-year">Year 5 . Jul 2029 to Aug 2030</div>
+          <h3>Completion & Handover</h3>
+          <p>Finalise all technical research. Complete the EWP demonstration building at NUoL. Confirm WTRC self sufficiency pathway. Final M&E evaluation.</p>
+          <div class="timeline-tags">
+            <span class="timeline-tag">EWP Building</span>
+            <span class="timeline-tag">Project Close</span>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ IMAGE BREAK ══════ -->
+<div class="image-break" id="image-break">
+  <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=1920&q=80" alt="Sunlight through forest canopy" loading="lazy">
+  <div class="image-break-overlay"></div>
+</div>
+
+<!-- ══════ TEAM ══════ -->
+<section class="team-section" id="team">
+  <div class="team-bg-text" id="team-bg-text">Team</div>
+  <div class="team-header">
+    <div>
+      <div class="label rv">Our Team</div>
+      <h2 class="section-title" id="team-title">47 researchers<br>across <em>two nations</em></h2>
+      <p class="section-body rv">Spanning Griffith University, NUoL, ANU, University of Melbourne, DPI Queensland, Department of Forestry, and Salwood Asia Pacific.</p>
+    </div>
+    <div class="team-header-img" id="team-header-img">
+      <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80" alt="Research team collaboration" loading="lazy">
+    </div>
+  </div>
+  <div class="team-groups">
+    <!-- Leadership -->
+    <div class="team-group">
+      <div class="team-group-label rv">Leadership</div>
+      <div class="team-grid rv-stagger">
+        <div class="team-card"><div class="team-initials">BL</div><h4>Dr Bill Leggate</h4><div class="role">Project Leader</div><div class="org">Griffith University</div></div>
+        <div class="team-card"><div class="team-initials">ST</div><h4>Sithong Thongmanivong</h4><div class="role">Country Coordinator</div><div class="org">NUoL</div></div>
+        <div class="team-card"><div class="team-initials">SP</div><h4>Somvang Phimmavong</h4><div class="role">Country Coordinator</div><div class="org">Dept. of Forestry</div></div>
+        <div class="team-card"><div class="team-initials">SM</div><h4>Stephen Midgley</h4><div class="role">Market Research Lead</div><div class="org">Salwood Asia Pacific</div></div>
+      </div>
+    </div>
+    <!-- NUoL -->
+    <div class="team-group">
+      <div class="team-group-label rv">NUoL Research Team</div>
+      <div class="team-grid rv-stagger">
+        <div class="team-card"><div class="team-initials">KP</div><h4>Khamtan Phonetip</h4><div class="role">Wood Technologist</div><div class="org">NUoL FFS</div></div>
+        <div class="team-card"><div class="team-initials">LB</div><h4>Latsamy Boupha</h4><div class="role">Wood Science</div><div class="org">NUoL FFS</div></div>
+        <div class="team-card"><div class="team-initials">KS</div><h4>Khonethong Soukphaxay</h4><div class="role">Wood Technologist</div><div class="org">NUoL FFS</div></div>
+        <div class="team-card"><div class="team-initials">OP</div><h4>Ong Phengbounhueang</h4><div class="role">Occupational H&S</div><div class="org">NUoL FFS</div></div>
+        <div class="team-card"><div class="team-initials">SV</div><h4>Souphinh Vongphachanh</h4><div class="role">Gender Analysis</div><div class="org">NUoL FSS</div></div>
+        <div class="team-card"><div class="team-initials">MD</div><h4>Maliphone Douangphachanh</h4><div class="role">Gender Analysis</div><div class="org">NUoL FSS</div></div>
+        <div class="team-card"><div class="team-initials">CP</div><h4>Champathong Phochanthilath</h4><div class="role">Gender Analysis</div><div class="org">NUoL FSS</div></div>
+        <div class="team-card"><div class="team-initials">PC</div><h4>Phoutsady Chitdavong</h4><div class="role">Environmental Mgmt</div><div class="org">NUoL FFS</div></div>
+      </div>
+    </div>
+    <!-- Australian -->
+    <div class="team-group">
+      <div class="team-group-label rv">Australian Universities</div>
+      <div class="team-grid rv-stagger">
+        <div class="team-card"><div class="team-initials">BB</div><h4>Benoit Belleville</h4><div class="role">Processing & Manufacturing</div><div class="org">Uni of Melbourne</div></div>
+        <div class="team-card"><div class="team-initials">JF</div><h4>Johannes Fehrmann</h4><div class="role">Processing & Manufacturing</div><div class="org">Uni of Melbourne</div></div>
+        <div class="team-card"><div class="team-initials">AF</div><h4>Adam Faircloth</h4><div class="role">Processing & Lab</div><div class="org">DPI Queensland</div></div>
+        <div class="team-card"><div class="team-initials">SL</div><h4>Stuart Ling</h4><div class="role">Social Studies Lead</div><div class="org">ANU</div></div>
+        <div class="team-card"><div class="team-initials">SM</div><h4>Soy Mienmany</h4><div class="role">Value Chain & Policy</div><div class="org">ANU</div></div>
+      </div>
+    </div>
+    <!-- DoF -->
+    <div class="team-group">
+      <div class="team-group-label rv">Department of Forestry</div>
+      <div class="team-grid rv-stagger">
+        <div class="team-card"><div class="team-initials">TV</div><h4>Thoumthone Vongvisouk</h4><div class="role">Policy Research</div><div class="org">Dept. of Forestry</div></div>
+        <div class="team-card"><div class="team-initials">XS</div><h4>Xaysompheng Sengkhamyong</h4><div class="role">Policy Research Lead</div><div class="org">Dept. of Forestry</div></div>
+        <div class="team-card"><div class="team-initials">VP</div><h4>Viengvilay Phimmavong</h4><div class="role">Policy Research</div><div class="org">Dept. of Forestry</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ PARTNERS ══════ -->
+<section class="partners" id="partners">
+  <div class="partners-layout">
+    <div>
+      <div class="label rv">Partnerships</div>
+      <h2 class="section-title" id="partners-title">Collaborative<br><em>network</em></h2>
+      <p class="section-body rv" style="margin-bottom:2rem">A broad coalition of government agencies, universities, industry associations, and international organisations.</p>
+      <ul class="partner-groups rv-stagger">
+        <li class="partner-group">
+          <h4>Government of Laos</h4>
+          <p>Department of Forestry leads policy analysis and oversees forest resource management. Department of Labour Management engaged in OH&S reform.</p>
+        </li>
+        <li class="partner-group">
+          <h4>Industry Associations</h4>
+          <p>Lao Wood Processors Association, Lao Furniture Association for market development, and Lao Chamber of Commerce for MSME assessment.</p>
+        </li>
+        <li class="partner-group">
+          <h4>International Collaborators</h4>
+          <p>KfW Village Forest Management. GIZ EU (ProFEB 3) circular economy. World Bank Lao Landscapes. FAO forest governance. LPTP+ teak value chains.</p>
+        </li>
+      </ul>
+    </div>
+    <div class="partner-orgs rv-stagger">
+      <div class="partner-org"><h4>Griffith University</h4><p>Commissioned Organisation</p></div>
+      <div class="partner-org"><h4>NUoL</h4><p>Central to all in country activities</p></div>
+      <div class="partner-org"><h4>ANU</h4><p>Forest policy & value chain</p></div>
+      <div class="partner-org"><h4>Uni of Melbourne</h4><p>Processing & EWP manufacturing</p></div>
+      <div class="partner-org"><h4>DPI Queensland</h4><p>EWP research & lab capacitation</p></div>
+      <div class="partner-org"><h4>Dept. of Forestry</h4><p>Principal Lao government agency</p></div>
+      <div class="partner-org"><h4>Salwood Asia Pacific</h4><p>Market analysis & trends</p></div>
+      <div class="partner-org"><h4>ACIAR</h4><p>Funding body</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ IMPACT ══════ -->
+<section class="impact" id="impact">
+  <div class="impact-header">
+    <div class="label rv">Expected Impact</div>
+    <h2 class="section-title" id="impact-title">Transformative<br><em>outcomes</em></h2>
+  </div>
+  <div class="impact-grid rv-stagger" id="impact-grid">
+    <div class="impact-card">
+      <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&q=80" alt="Economic growth" loading="lazy">
+      <div class="impact-card-content">
+        <h3>Economic Growth</h3>
+        <p>Expanded wood processing, increased profitability, more employment, and greater national revenue.</p>
+      </div>
+    </div>
+    <div class="impact-card">
+      <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80" alt="Environmental sustainability" loading="lazy">
+      <div class="impact-card-content">
+        <h3>Environmental</h3>
+        <p>Expanded plantation area, increased carbon sequestration, and substitution for energy intensive materials.</p>
+      </div>
+    </div>
+    <div class="impact-card">
+      <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80" alt="Social equity" loading="lazy">
+      <div class="impact-card-content">
+        <h3>Social Equity</h3>
+        <p>Improved gender equity, better OH&S practices, and inclusion of ethnic minority women in research.</p>
+      </div>
+    </div>
+    <div class="impact-card">
+      <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&q=80" alt="Institutional capacity" loading="lazy">
+      <div class="impact-card-content">
+        <h3>Institutional</h3>
+        <p>A self sustaining WTRC providing testing, certification, and training services long term.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ GALLERY ══════ -->
+<section class="gallery" id="gallery">
+  <div class="gallery-header">
+    <div class="label rv">Photo Gallery</div>
+    <h2 class="section-title" id="gallery-title">Project in<br><em>pictures</em></h2>
+  </div>
+  <div class="gallery-grid rv-stagger" id="gallery-grid">
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=1200&q=80" alt="Lush forest landscape" loading="lazy">
+      <div class="gallery-item-overlay"><p>Lao PDR Plantation Forests</p></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80" alt="Wood processing" loading="lazy">
+      <div class="gallery-item-overlay"><p>Wood Processing Operations</p></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=600&q=80" alt="Timber logs" loading="lazy">
+      <div class="gallery-item-overlay"><p>Plantation Timber Resources</p></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=600&q=80" alt="Pine forest" loading="lazy">
+      <div class="gallery-item-overlay"><p>Sustainable Forestry Practices</p></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80" alt="Wood furniture" loading="lazy">
+      <div class="gallery-item-overlay"><p>Engineered Wood Products</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ CONTACT ══════ -->
+<section class="contact" id="contact">
+  <div class="contact-layout">
+    <div>
+      <div class="label rv">Get in Touch</div>
+      <h2 class="section-title" id="contact-title">Let's <em>connect</em></h2>
+      <p class="section-body rv">Interested in learning more about VALTIP4 or exploring partnership opportunities? We would love to hear from you.</p>
+      <div class="contact-info rv-stagger">
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div><h4>Project Lead</h4><p>Griffith University, Brisbane, Australia</p></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div><h4>Email</h4><p>valtip4@griffith.edu.au</p></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div><h4>Partner Country</h4><p>Lao PDR, National University of Laos, Vientiane</p></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          </div>
+          <div><h4>Funding Body</h4><p>ACIAR, Australian Centre for International Agricultural Research</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form rv">
+      <h3>Send a message</h3>
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" placeholder="Your first name"></div>
+        <div class="form-group"><label>Last Name</label><input type="text" placeholder="Your last name"></div>
+      </div>
+      <div class="form-group"><label>Email</label><input type="email" placeholder="your@email.com"></div>
+      <div class="form-group"><label>I am a...</label>
+        <select><option value="">Select your role</option><option>Researcher / Academic</option><option>Student</option><option>Government Official</option><option>Industry Partner</option><option>Donor / Investor</option><option>Community Member</option><option>Media</option><option>Other</option></select>
+      </div>
+      <div class="form-group"><label>Message</label><textarea placeholder="Tell us how we can help..."></textarea></div>
+      <button class="btn-submit" data-hover data-magnetic>Send Message</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ FOOTER ══════ -->
+<footer>
+  <div class="footer-big-text" id="footer-big-text">VALTIP4</div>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">VALTIP<em style="color:var(--gold);font-style:italic">4</em></div>
+      <p class="footer-tagline">Sustainable Expansion of Forestry and Wood Processing in Laos and Australia. An ACIAR funded project running from 2025 to 2030.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Project</h4>
+      <ul>
+        <li><a href="#overview" data-hover>Overview</a></li>
+        <li><a href="#objectives" data-hover>Objectives</a></li>
+        <li><a href="#research" data-hover>Research</a></li>
+        <li><a href="#timeline" data-hover>Timeline</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>People</h4>
+      <ul>
+        <li><a href="#team" data-hover>Team</a></li>
+        <li><a href="#partners" data-hover>Partners</a></li>
+        <li><a href="#impact" data-hover>Impact</a></li>
+        <li><a href="#gallery" data-hover>Gallery</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="#contact" data-hover>Contact Us</a></li>
+        <li><a href="#" data-hover>ACIAR Website</a></li>
+        <li><a href="#" data-hover>Griffith University</a></li>
+        <li><a href="#" data-hover>NUoL</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 VALTIP4 Project. Funded by ACIAR.</span>
+    <div class="footer-socials">
+      <a class="footer-social" href="#" aria-label="Twitter" data-hover>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="footer-social" href="#" aria-label="LinkedIn" data-hover>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ═══════════════════════════════════════
+  // 1. LENIS SMOOTH SCROLL
+  // ═══════════════════════════════════════
+  const lenis = new Lenis({
+    lerp: 0.07,
+    smoothWheel: true,
+    wheelMultiplier: 0.8
+  });
+
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add(function(time) { lenis.raf(time * 1000); });
+  gsap.ticker.lagSmoothing(0);
+
+  // ═══════════════════════════════════════
+  // 2. CUSTOM CURSOR
+  // ═══════════════════════════════════════
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  var mx = 0, my = 0, dx = 0, dy = 0, rx = 0, ry = 0;
+
+  if (window.matchMedia('(pointer: fine)').matches) {
+    document.addEventListener('mousemove', function(e) { mx = e.clientX; my = e.clientY; });
+
+    function cursorLoop() {
+      dx += (mx - dx) * 0.15;
+      dy += (my - dy) * 0.15;
+      rx += (mx - rx) * 0.06;
+      ry += (my - ry) * 0.06;
+      dot.style.left = dx + 'px';
+      dot.style.top = dy + 'px';
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(cursorLoop);
+    }
+    cursorLoop();
+
+    document.querySelectorAll('[data-hover]').forEach(function(el) {
+      el.addEventListener('mouseenter', function() { dot.classList.add('hovering'); ring.classList.add('hovering'); });
+      el.addEventListener('mouseleave', function() { dot.classList.remove('hovering'); ring.classList.remove('hovering'); });
+    });
+  }
+
+  // ═══════════════════════════════════════
+  // 3. MAGNETIC BUTTONS
+  // ═══════════════════════════════════════
+  document.querySelectorAll('[data-magnetic]').forEach(function(el) {
+    el.addEventListener('mousemove', function(e) {
+      var r = el.getBoundingClientRect();
+      var cx = r.left + r.width / 2;
+      var cy = r.top + r.height / 2;
+      gsap.to(el, { x: (e.clientX - cx) * 0.2, y: (e.clientY - cy) * 0.2, duration: 0.4, ease: 'power2.out' });
+    });
+    el.addEventListener('mouseleave', function() {
+      gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.4)' });
+    });
+  });
+
+  // ═══════════════════════════════════════
+  // 4. SCROLL PROGRESS BAR
+  // ═══════════════════════════════════════
+  var progressBar = document.getElementById('scroll-progress');
+  lenis.on('scroll', function() {
+    var pct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+    progressBar.style.transform = 'scaleX(' + Math.min(pct, 1) + ')';
+  });
+
+  // ═══════════════════════════════════════
+  // 5. PRELOADER
+  // ═══════════════════════════════════════
+  var preloaderTl = gsap.timeline({ onComplete: initPage });
+
+  preloaderTl
+    .to('#preloader-brand', { opacity: 1, duration: 0.6, ease: 'power2.out' })
+    .to('#preloader-sub', { opacity: 0.6, duration: 0.35 }, '-=0.25')
+    .to('#preloader-line', { width: 80, duration: 1.4, ease: 'power2.inOut' }, '-=0.15')
+    .to('#preloader', { yPercent: -100, duration: 0.85, ease: 'power3.inOut', delay: 0.15 });
+
+  // ═══════════════════════════════════════
+  // 6. PAGE INIT + HERO ENTRANCE
+  // ═══════════════════════════════════════
+  function initPage() {
+    document.getElementById('preloader').classList.add('done');
+
+    var heroTl = gsap.timeline({ delay: 0.08 });
+
+    heroTl.from('#hero-eyebrow', {
+      yPercent: 100, opacity: 0, duration: 0.65, ease: 'power3.out'
+    });
+
+    heroTl.from('.hero-title .line-inner', {
+      yPercent: 110, duration: 0.95, ease: 'power3.out', stagger: 0.1
+    }, '-=0.3');
+
+    heroTl.add(function() {
+      var s = document.createElement('style');
+      s.textContent = '.hero-title em::after { transform: scaleX(1) !important; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }';
+      document.head.appendChild(s);
+    }, '-=0.25');
+
+    heroTl.from('#hero-desc', {
+      yPercent: 40, opacity: 0, duration: 0.75, ease: 'power3.out'
+    }, '-=0.45');
+
+    heroTl.to('#hero-actions', { opacity: 1, duration: 0.45, ease: 'power2.out' }, '-=0.25');
+    heroTl.to('#hero-scroll', { opacity: 1, duration: 0.5, ease: 'power2.out' }, '-=0.15');
+
+    initScrollAnimations();
+  }
+
+  // ═══════════════════════════════════════
+  // 7. SCROLL ANIMATIONS
+  // ═══════════════════════════════════════
+  function initScrollAnimations() {
+
+    // --- Generic reveals ---
+    document.querySelectorAll('.rv').forEach(function(el) {
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 88%',
+        onEnter: function() { el.classList.add('vis'); },
+        once: true
+      });
+    });
+
+    // --- Stagger reveals ---
+    document.querySelectorAll('.rv-stagger').forEach(function(el) {
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 85%',
+        onEnter: function() { el.classList.add('vis'); },
+        once: true
+      });
+    });
+
+    // --- Hero parallax ---
+    gsap.to('#hero-bg-img', {
+      yPercent: 8, ease: 'none',
+      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+    });
+    gsap.to('#hero-content', {
+      yPercent: -12, opacity: 0, ease: 'none',
+      scrollTrigger: { trigger: '#hero', start: '40% top', end: 'bottom top', scrub: true }
+    });
+
+    // --- Nav scroll state ---
+    ScrollTrigger.create({
+      trigger: '.stats-bar',
+      start: 'top top',
+      onEnter: function() { document.getElementById('nav').classList.add('scrolled'); },
+      onLeaveBack: function() { document.getElementById('nav').classList.remove('scrolled'); }
+    });
+
+    // --- Marquee continuous scroll ---
+    var marqueeTrack = document.getElementById('marquee-track');
+    var mw = marqueeTrack.scrollWidth / 2;
+    gsap.to(marqueeTrack, { x: -mw, ease: 'none', duration: 40, repeat: -1 });
+
+    // --- Overview Title SplitType ---
+    try {
+      var overviewTitle = new SplitType('#overview-title', { types: 'words, chars' });
+      gsap.from(overviewTitle.chars, {
+        yPercent: 100, opacity: 0, rotationX: -30,
+        stagger: 0.018, duration: 0.75, ease: 'power3.out',
+        scrollTrigger: { trigger: '#overview-title', start: 'top 82%', toggleActions: 'play none none none' }
+      });
+    } catch(e) {}
+
+    // --- Overview Image Reveals (clip-path) ---
+    gsap.to('#overview-img-1', {
+      clipPath: 'inset(0 0 0% 0)', duration: 1.1, ease: 'power3.inOut',
+      scrollTrigger: { trigger: '#overview-img-1', start: 'top 80%', toggleActions: 'play none none none' }
+    });
+    gsap.to('#overview-img-2', {
+      clipPath: 'inset(0 0 0% 0)', duration: 1.1, ease: 'power3.inOut', delay: 0.12,
+      scrollTrigger: { trigger: '#overview-img-2', start: 'top 85%', toggleActions: 'play none none none' }
+    });
+
+    // --- Overview image parallax ---
+    gsap.to('#overview-img-1 img', {
+      yPercent: -8, ease: 'none',
+      scrollTrigger: { trigger: '#overview-img-1', start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+    gsap.to('#overview-img-2 img', {
+      yPercent: -8, ease: 'none',
+      scrollTrigger: { trigger: '#overview-img-2', start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+
+    // --- Hectare counter ---
+    var hectareEl = document.getElementById('hectare-counter');
+    var hectareDone = false;
+    ScrollTrigger.create({
+      trigger: '#overview-img-2',
+      start: 'top 90%',
+      onEnter: function() {
+        if (hectareDone) return;
+        hectareDone = true;
+        gsap.to({ v: 0 }, {
+          v: 300000, duration: 2.2, ease: 'power2.out',
+          onUpdate: function() {
+            var val = Math.round(this.targets()[0].v);
+            if (val >= 1000) hectareEl.textContent = Math.round(val / 1000) + 'K';
+            else hectareEl.textContent = val.toLocaleString();
+          }
+        });
+      },
+      once: true
+    });
+
+    // --- Objectives Title SplitType ---
+    try {
+      var objTitle = new SplitType('#objectives-title', { types: 'words, chars' });
+      gsap.from(objTitle.chars, {
+        yPercent: 100, opacity: 0,
+        stagger: 0.02, duration: 0.7, ease: 'power3.out',
+        scrollTrigger: { trigger: '#objectives-title', start: 'top 82%', toggleActions: 'play none none none' }
+      });
+    } catch(e) {}
+
+    // --- Research Title SplitType ---
+    try {
+      var resTitle = new SplitType('#research-title', { types: 'words, chars' });
+      gsap.from(resTitle.chars, {
+        yPercent: 100, opacity: 0,
+        stagger: 0.018, duration: 0.7, ease: 'power3.out',
+        scrollTrigger: { trigger: '#research-title', start: 'top 82%', toggleActions: 'play none none none' }
+      });
+    } catch(e) {}
+
+    // --- Research visual clip-path reveal ---
+    gsap.to('#research-visual', {
+      clipPath: 'inset(0 0 0% 0)', duration: 1.2, ease: 'power3.inOut',
+      scrollTrigger: { trigger: '#research-visual', start: 'top 80%', toggleActions: 'play none none none' }
+    });
+
+    // --- Research visual parallax ---
+    gsap.to('#research-visual img', {
+      yPercent: -10, ease: 'none',
+      scrollTrigger: { trigger: '#research-visual', start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+
+    // --- Quote divider ---
+    gsap.to('#quote-divider', {
+      scaleX: 1, duration: 0.8, ease: 'power2.inOut',
+      scrollTrigger: { trigger: '#quote-divider', start: 'top 85%', toggleActions: 'play none none none' }
+    });
+
+    // --- Quote bg text parallax ---
+    gsap.to('#quote-bg', {
+      xPercent: -8, ease: 'none',
+      scrollTrigger: { trigger: '#quote-section', start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+
+    // --- Timeline Title SplitType ---
+    try {
+      var tlTitle = new SplitType('#timeline-title', { types: 'words, chars' });
+      gsap.from(tlTitle.chars, {
+        yPercent: 100, opacity: 0,
+        stagger: 0.02, duration: 0.7, ease: 'power3.out',
+        scrollTrigger: { trigger: '#timeline-title', start: 'top 82%', toggleActions: 'play none none none' }
+      });
+    } catch(e) {}
+
+    // --- Timeline visual clip-path reveal ---
+    gsap.to('#timeline-visual', {
+      clipPath: 'inset(0 0% 0 0)', duration: 1.2, ease: 'power3.inOut',
+      scrollTrigger: { trigger: '#timeline-visual', start: 'top 80%', toggleActions: 'play none none none' }
+    });
+
+    // --- Timeline visual parallax ---
+    gsap.to('#timeline-visual img', {
+      yPercent: -10, ease: 'none',
+      scrollTrigger: { trigger: '#timeline-visual', start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+
+    // --- Image break parallax ---
+    gsap.to('#image-break img', {
+      yPercent: -10, ease: 'none',
+      scrollTrigger: { trigger: '#image-break', start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+
+    // --- Team Title SplitType ---
+    try {
+      var teamTitle = new SplitType('#team-title', { types: 'words, chars' });
+      gsap.from(teamTitle.chars, {
+        yPercent: 80, opacity: 0,
+        stagger: 0.015, duration: 0.65, ease: 'power3.out',
+        scrollTrigger: { trigger: '#team-title', start: 'top 82%', toggleActions: 'play none none none' }
+      });
+    } catch(e) {}
+
+    // --- Team header image clip-path ---
+    gsap.to('#team-header-img', {
+      clipPath: 'inset(0 0% 0 0)', duration: 1.1, ease: 'power3.inOut',
+      scrollTrigger: { trigger: '#team-header-img', start: 'top 80%', toggleActions: 'play none none none' }
+    });
+
+    // --- Team header image parallax ---
+    gsap.to('#team-header-img img', {
+      yPercent: -8, ease: 'none',
+      scrollTrigger: { trigger: '#team-header-img', start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+
+    // --- Team bg text parallax ---
+    gsap.to('#team-bg-text', {
+      xPercent: -5, ease: 'none',
+      scrollTrigger: { trigger: '#team', start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+
+    // --- Partners Title SplitType ---
+    try {
+      var partTitle = new SplitType('#partners-title', { types: 'words, chars' });
+      gsap.from(partTitle.chars, {
+        yPercent: 100, opacity: 0,
+        stagger: 0.02, duration: 0.7, ease: 'power3.out',
+        scrollTrigger: { trigger: '#partners-title', start: 'top 82%', toggleActions: 'play none none none' }
+      });
+    } catch(e) {}
+
+    // --- Impact Title SplitType ---
+    try {
+      var impTitle = new SplitType('#impact-title', { types: 'words, chars' });
+      gsap.from(impTitle.chars, {
+        yPercent: 80, opacity: 0,
+        stagger: 0.015, duration: 0.65, ease: 'power3.out',
+        scrollTrigger: { trigger: '#impact-title', start: 'top 82%', toggleActions: 'play none none none' }
+      });
+    } catch(e) {}
+
+    // --- Gallery Title SplitType ---
+    try {
+      var galTitle = new SplitType('#gallery-title', { types: 'words, chars' });
+      gsap.from(galTitle.chars, {
+        yPercent: 100, opacity: 0,
+        stagger: 0.018, duration: 0.7, ease: 'power3.out',
+        scrollTrigger: { trigger: '#gallery-title', start: 'top 82%', toggleActions: 'play none none none' }
+      });
+    } catch(e) {}
+
+    // --- Contact Title SplitType ---
+    try {
+      var conTitle = new SplitType('#contact-title', { types: 'words, chars' });
+      gsap.from(conTitle.chars, {
+        yPercent: 80, opacity: 0,
+        stagger: 0.015, duration: 0.6, ease: 'power3.out',
+        scrollTrigger: { trigger: '#contact-title', start: 'top 82%', toggleActions: 'play none none none' }
+      });
+    } catch(e) {}
+
+    // --- Footer big text parallax ---
+    gsap.from('#footer-big-text', {
+      xPercent: 5, ease: 'none',
+      scrollTrigger: { trigger: '#footer-big-text', start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+  }
+
+  // ═══════════════════════════════════════
+  // 8. MOBILE MENU
+  // ═══════════════════════════════════════
+  var burger = document.getElementById('burger');
+  var mobMenu = document.getElementById('mob-menu');
+
+  burger.addEventListener('click', function() {
+    burger.classList.toggle('open');
+    mobMenu.classList.toggle('open');
+    if (mobMenu.classList.contains('open')) {
+      lenis.stop();
+    } else {
+      lenis.start();
+    }
+  });
+
+  document.querySelectorAll('.mob-link').forEach(function(link) {
+    link.addEventListener('click', function() {
+      burger.classList.remove('open');
+      mobMenu.classList.remove('open');
+      lenis.start();
+    });
+  });
+
+  // ═══════════════════════════════════════
+  // 9. SMOOTH SCROLL LINKS
+  // ═══════════════════════════════════════
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        lenis.scrollTo(target, { offset: 0 });
+      }
+    });
+  });
+
+})();
+</script>
+</body>
+</html>
